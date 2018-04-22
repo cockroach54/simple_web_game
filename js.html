@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>    
+    <script src="js.js"></script>
+    <style>
+        div{
+            width:200px;
+            height:200px;
+            border-radius: 20px;
+            margin: 10px;
+            display: inline-block;
+            text-align: center;
+            background-color: greenyellow;
+        }
+        div:hover{
+            cursor:pointer;
+        }
+        #aa{
+            background-color:aquamarine;
+        }
+        #bb{
+            background-color: aqua;
+        }
+        .button {
+        background-color: orange;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+            float: left;
+        }
+        button:nth-child(5){
+            color: red;
+        }
+        #cc{
+            background-color: beige;
+            border-radius: 100%;
+            width:50px;
+            height: 50px;
+        }
+        #aa:hover{
+            border: 2px dotted #aaa;
+        }
+        #dd{
+            font-size:2em;
+            color: orangered;
+        }
+        #bu{
+            width: 250px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id='aa' onclick="changeColor()"><span>'aa' 입니다</span></div>
+    <div id='bb' onclick="resetCnt()">'bb' 입니다</div>
+    <div style="display:block; height:10px; clear:both"></div>
+    <button class="button" type="button"
+onclick="document.getElementById('aa').innerHTML = 'aa changed'"> button for 'aa'</button>
+    <button class="button" type="button"
+onclick="document.getElementById('bb').innerHTML = 'bb changed'">
+button for 'bb'</button>
+    <script>document.write("스크립트 출력 단어임"+" hello ", 100+100)
+    //window.alert('hello js')
+    </script>
+    <hr style="clear:both"/>
+    <div id='cc' onclick="cntPlus()"><span id='dd'>0</span></div>
+    <div id='bu'></div>
+    
+    <form>
+        <input id="tt">
+        <button type="button" onclick="showText()">Click</button>
+    </form>
+    <hr/>
+    
+    <p id="myID3"></p>
+
+    <script>
+    myFunction3();
+    document.getElementById("myID3").innerHTML =
+    "함수 내의 변수를 다음과 같이 볼수 있습니다. " + chair3;
+
+    function myFunction3() {
+    chair3 = "다리가 4개인 의자";
+    }
+    </script>
+    
+    <hr/>
+    <script>document.write(chair3);</script>
+</body>
+</html>

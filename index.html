@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>       
+
+        <style>
+            body{
+                width: 640;
+                margin: auto;
+                padding: 0;
+            }
+            #loading{
+                margin: auto;
+                width: 640px;
+                height: 360px;
+                background-image: url('imgsrc/loading.jpg');
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            #screen{
+/*                border: 1px solid red;*/
+                margin: auto;
+                height: 360px;
+                width: 640px;
+/*                display: inline-block;*/
+            }
+            #ldiv{
+                box-sizing: border-box;
+                width: 140px;
+                height: 360px;
+                background-color:rgba(136,176,75,.7);
+                padding: 2px;
+                float:left;
+                text-align: center;
+                box-shadow: 2px 2px 5px gray inset;
+            }
+            #score, #gob, #delixir{
+                width: 80%;
+                margin: 0 auto 15px auto;
+                background-color:white;
+                border-radius: 5px;
+                text-align: center;
+                box-shadow: 2px 2px 5px gray inset;
+            }
+            #smart{
+                width: 80%;
+                margin: 0 auto 20px auto;
+                border-radius: 5px;
+                text-align: center;
+                height:120px;
+                background-image: url('imgsrc/shoot.png');
+                background-repeat: no-repeat;
+                background-size: contain;
+/*                border: 1px solid red;*/
+            }
+            #over{
+                margin: auto;
+                width: 640px;
+                height: 360px;
+                background-image: url('imgsrc/bg_res.jpg');
+                background-repeat:no-repeat;
+                background-size:cover;
+/*                background-color:darkno-repeatsalmon;*/
+            }
+            h1{
+/*                position: relative;*/
+/*                top: 80px;*/
+                padding-top: 60px;
+                margin: 0;
+                text-align: center;
+            }
+            h2{
+                text-align: center;
+                padding: 5px;
+                margin: 0;
+            }
+            #tot_score{
+                font-size: 4em;
+                text-align: center;
+            }
+            input{
+                display: block;
+                margin: auto;
+            }
+            button{
+                display: block;
+                border: none;
+                border-radius: 10px;
+                margin: 10px auto 10px auto;
+                padding: 10px;
+                background-color:lightgreen;
+                cursor: pointer;
+                box-shadow: 2px 2px 1px black;
+            }
+            #rank{
+                margin: auto;
+                width: 640px;
+                height: 360px;
+                background-image: url('imgsrc/bg_res.jpg');
+                background-repeat: no-repeatno;
+                background-size: cover
+/*                background-color:aquamarine;*/
+            }
+            #myRank{
+                color: firebrick;
+            }
+            table{
+                width: 50%;
+                margin: auto;
+                padding: 0 1em 0 1em;
+                background-color: white;
+                border-radius: 1em;
+                box-shadow: 4px 4px 5px gray;
+            }
+            th, td{
+                font-size: 14px;
+                border-bottom: 1px solid gray;
+                text-align: center;  
+            }
+            #rank1{
+                background-color: gold;
+                font-size: 17px;
+                color: white;
+            }
+            #rank2{
+                background-color: silver;
+                font-size: 16px;
+                color: white;
+            }
+            #rank3{
+                background-color: saddlebrown;
+                font-size: 15px;
+                color: white;
+            }
+        </style>
+        
+    </head>
+    
+    <body onload='start()'>
+        <div id='loading'></div>
+        <div id='screen' style='display:none'>
+            <canvas width=500 height=360 style="float:left"></canvas>
+            <div id='ldiv'>
+                <strong>my score</strong>
+                <div id='score'>none</div>
+                <strong>reserved monster</strong>
+                <div id='gob'>debuging</div>
+                <strong>dark elixir</strong>
+                <div id='delixir'>debuging</div>
+                <span style='font-size: 13px;'>if you use smartphone, touch below shoot icon</span>
+                <div id='smart'></div>
+            </div>
+            <div style='clear:both'></div>
+        </div>
+        <div id='over' style="display:none">
+            <h1>Your total score is</h1>
+            <div id='tot_score'>tot_score</div>
+            <h2>please input your name</h2>
+            <form>
+                <input value="my_name">
+                <button id='resist' type="button">resist</button>
+            </form>
+        </div>
+        <div id='rank' style="display:none">
+            <h2 id='ment'>Conglatulation your score is on <span id='myRank'>top3</span>!!</h2>
+            <table>
+                <tbody>
+                    <tr>
+                        <th style="width:20%">Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                    <tr id='rank1'><td>1</td><td>-</td><td>0</td></tr>
+                    <tr id='rank2'><td>2</td><td>-</td><td>0</td></tr>
+                    <tr id='rank3'><td>3</td><td>-</td><td>0</td></tr>
+                    <tr id='rank4'><td>4</td><td>-</td><td>0</td></tr>
+                    <tr id='rank5'><td>5</td><td>-</td><td>0</td></tr>
+                    <tr id='rank6'><td>6</td><td>-</td><td>0</td></tr>
+                    <tr id='rank7'><td>7</td><td>-</td><td>0</td></tr>
+                    <tr id='rank8'><td>8</td><td>-</td><td>0</td></tr>
+                    <tr id='rank9'><td>9</td><td>-</td><td>0</td></tr>
+                    <tr id='rank10'><td>10</td><td>-</td><td>0</td></tr>
+                    <tr id='rank11'><td>...</td><td>-</td><td>0</td></tr>
+                </tbody>
+            </table>
+            <div style='margin:auto; width:58%'><a href='http://blog.naver.com/lsw0504'>Created by cockroach, click and come to my blog </a></div>
+        </div>
+        <br/>
+<!--        --------------------here is js----------------------------------------->
+        <script>
+            var canvas = document.getElementsByTagName('canvas')[0];
+            var ctx = canvas.getContext("2d");
+            ctx.globalAlpha = .9;
+
+//            document.write('create by Cockroach');
+            var arc_img = new Image();
+            arc_img.src = 'imgsrc/archer.png';
+            var attack_img = new Image();
+            attack_img.src = 'imgsrc/attack.png';
+            var arcq_img = new Image();
+            arcq_img.src = 'imgsrc/archerqueen.png';
+            var gob_img = new Image();
+            gob_img.src = 'imgsrc/goblin.png';
+            var gob2_img = new Image();
+            gob2_img.src = 'imgsrc/goblin2.png';
+            var skel_img = new Image();
+            skel_img.src = 'imgsrc/skel.png';
+            var skel2_img = new Image();
+            skel2_img.src = 'imgsrc/skel2.png';
+            var arw_img = new Image();
+            arw_img.src = 'imgsrc/arrow.png';
+            var delixir_img = new Image();
+            delixir_img.src = 'imgsrc/delixir.png';
+            
+            var acc_x = 0;      //x 가속도 = 바람세기 설정
+            var acc_y = .5;     //y 가속도 = 중력 설정
+            var d_x = 470;      //디렉터 x위치
+            var d_y = 180;      //디렉터 y위치. 디렉터가 화살, 아처, 게이지 위치 기준
+            var isGameOver = false;
+            
+            var ang_now;    //디렉터에서 리턴한 각도
+            var time_now;   //마우스 클릭시간 = 파워
+            var str = 18;   //활의 세기
+            var pow_now;    //게이지 파워 보정값
+            var guage = new PowGuage(400,240,80,10);
+            var score = 0;  //맞힌 고블린 개수
+            var score_d = 0; //맞힌 다크엘릭서 개수
+            
+            var archer = new Archer(d_x, d_y);  //디렉터위치 기준으로 아처생성
+            
+            var arw_seq = 0;            //화살 순서
+            var num_arw = 3;            //화살 갯수
+            var arr_arw = new Array();  //화살 객체 배열
+            for(var i=0; i<num_arw; i++){
+                arr_arw.push(new Arrow(canvas.width+100, canvas.height+100, 0, 0));
+            }
+            
+            var tot_gob = 25;           //라운드별 고블린 수
+            var num_gob = 4;            //객체(한 화면)내 고블린 마릿수
+            var arr_gob = new Array();  //고블린 객체 배열
+            for(var i=0; i<num_gob; i++){
+                arr_gob.push(new Goblin(myRndFloat(-400,-10), myRndFloat(0,canvas.height-40), 50, 60, myRndFloat(-60,60), myRndFloat(0.8,2)));
+                tot_gob--;
+            }
+            
+            var tot_skel = 25;           //라운드별 skel 수
+            var num_skel = 4;            //객체(한 화면)내 skel 마릿수
+            var arr_skel = new Array();  //skel 객체 배열
+            for(var i=0; i<num_skel; i++){
+                arr_skel.push(new Skel(myRndFloat(-400,-10), myRndFloat(0,canvas.height-40), 35, 45, myRndFloat(-60,60), myRndFloat(0.5,1.2)));
+                tot_skel--;
+            }
+            
+            var tot_dark = 5;           //라운드별 delixir 수
+            var num_dark = 1;            //객체(한 화면)내 delixir 마릿수
+            var arr_dark = new Array();  //delixir 객체 배열
+            for(var i=0; i<num_dark; i++){
+                arr_dark.push(new Delixir(myRndFloat(-400,-10), myRndFloat(0,canvas.height-40), 50, 50, myRndFloat(-60,60), myRndFloat(0.4,0.8)));
+                tot_dark--;
+            }
+            
+            
+//            --------------이벤트--------------
+            canvas.addEventListener("mousedown", function(){
+                del_pre=del;    //디렉터 각도 멈추기, 증분 = 0
+                del=0;
+
+                del_pow=3;  //게이지 속도 설정
+            });
+            //스마트폰 입력
+            document.getElementById('smart').addEventListener("touchstart", function(){
+                del_pre=del;    //디렉터 각도 멈추기, 증분 = 0
+                del=0;
+
+                del_pow=3;  //게이지 속도 설정
+            });
+
+            canvas.addEventListener("mouseup", function(){
+                archer.shotArrow(); //화살 발사
+
+                del=del_pre;    //디렉터 각도 증분 이전값 로드
+
+                del_pow=0;      //마우스 떼면 게이지증가 안하게
+                pow=0;          //게이지 초기화
+            });
+            //스마트폰 입력
+            document.getElementById('smart').addEventListener("touchend", function(){
+                archer.shotArrow(); //화살 발사
+
+                del=del_pre;    //디렉터 각도 증분 이전값 로드
+
+                del_pow=0;      //마우스 떼면 게이지증가 안하게
+                pow=0;          //게이지 초기화
+            });
+            //마우스 누른채 캔버스 벗어나면 에러나는거 방지
+            canvas.addEventListener("mouseout", function(){
+                archer.shotArrow(); //화살 발사
+
+                del=del_pre;    //디렉터 각도 증분 이전값 로드
+
+                del_pow=0;      //마우스 떼면 게이지증가 안하게
+                pow=0;          //게이지 초기화
+            });
+            
+            
+            //랭킹버튼 이벤트
+            document.getElementById('resist').addEventListener('click', function(){
+                resistScore();
+                //쿠키에 소트된 랭킹 저장
+                saveToCookie();
+                var myRank = findRank();
+                console.log(myRank);
+                document.getElementById('over').style.display = 'none';
+                document.getElementById('rank').style.display = 'block';
+                if(myRank<11){
+                    document.getElementById('myRank').innerHTML = 'top' + myRank;
+                    document.getElementsByTagName('tr')[myRank].style.color='red';
+                }
+                else document.getElementById('ment').innerHTML = 'Sorry, your score is not on top10'
+            });
+            //게임시작이벤트
+            document.getElementById('loading').addEventListener('click', gameStart);
+            
+            //내 랭킹 찾아주는 함수
+            function findRank(){
+                var myname = document.getElementsByTagName('input')[0].value;
+                var myscore = score;
+                for(var i=1; i<11; i++){
+                    var nameVal = document.getElementsByTagName('tr')[i].childNodes[1].innerHTML;
+                    var scoreVal = document.getElementsByTagName('tr')[i].childNodes[2].innerHTML;
+                    if(myname==nameVal && myscore==scoreVal) return i;
+                }
+            }
+            
+            //화면에 내 랭킹 계산후 표시
+            function resistScore(){
+                //일단 임시 11위에 기록
+                document.getElementsByTagName('tr')[11].childNodes[1].innerHTML = document.getElementsByTagName('input')[0].value;
+                document.getElementsByTagName('tr')[11].childNodes[2].innerHTML = score;
+                //스코어 배열 생성 및 저장
+                var arr = new Array();
+                for(var i=1; i<12; i++){
+                    arr[i] = {};    //이거 없으면 아래처럼 .name를 바로 못씀
+                    arr[i].name = document.getElementsByTagName('tr')[i].childNodes[1].innerHTML;
+                    arr[i].score = document.getElementsByTagName('tr')[i].childNodes[2].innerHTML;
+                }
+                //배열 소트
+                arr.sort(function(a,b){ //소트되면 배열 0번부터 다시 참
+                    if(Number(a.score)>=Number(b.score)) return -1; //내림차순
+                    else return 0;
+                });
+                console.log('sorted');
+                console.log(arr);
+                //소트된 배열 화면에 표시
+                for(var i=0; i<11; i++){
+                    document.getElementsByTagName('tr')[i+1].childNodes[1].innerHTML = arr[i].name;
+                    document.getElementsByTagName('tr')[i+1].childNodes[2].innerHTML = arr[i].score;
+                }    
+            }
+            
+            //쿠키에 현재 랭킹 저장하기
+            function saveToCookie(){
+                for(var i=1; i<11; i++){
+                    var cname = document.getElementsByTagName('tr')[i].childNodes[1].innerHTML;
+                    var cscore = document.getElementsByTagName('tr')[i].childNodes[2].innerHTML;
+                    //name과 score를 &&&으로 구분
+                    mySetCookieFunction('rank'+i, cname + '&&&' + cscore, 1);
+                }
+            }
+            
+            //쿠키에서 랭킹 불러오기
+            function loadCookie(){
+                for(var i=1; i<11; i++){
+                    var cval = myGetCookieFunction('rank'+i).split('&&&')
+                    document.getElementsByTagName('tr')[i].childNodes[1].innerHTML = cval[0];
+                    document.getElementsByTagName('tr')[i].childNodes[2].innerHTML = cval[1];
+                }
+            }
+            
+            //json에 현재 랭킹 저장하기, 이거 공부할게 많네
+            function saveToJson(){
+                
+            }
+            
+            //json에서 랭킹 불러오기, 제이쿼리 코드 섞으면 제이쿼리 부분은 제일 나중에 돌아간다
+            function loadJson(){
+                var cval=[];
+                console.log('load json');
+                $.getJSON("sample.json", function(result){
+                    console.log('jajaja');
+                    $.each(result, function(i, field){
+                        document.getElementsByTagName('tr')[i+1].childNodes[1].innerHTML =field.name;
+                        document.getElementsByTagName('tr')[i+1].childNodes[2].innerHTML =field.score;
+                    });
+                    console.log('json to html, did it!')
+                });
+            }
+            
+//            ------------구동함수-----------------
+            
+            function start(){   //로딩화면 실행
+                
+            }
+            
+            function gameStart(){
+                document.getElementById('loading').style.display='none';
+                document.getElementById('screen').style.display='block';
+                //쿠키에서 랭킹 불러오기
+                loadCookie();
+//                loadJson();   //데이터베이스 공부하기전까지는 못씀  
+                loof();
+            }
+            
+            function loof(){    //게임내내실행
+                ctx.clearRect(0,0, canvas.width, canvas.height);    //캔버스 지우기
+                makeBg();
+//                showGrid(ctx, 20, 20);  //그리드
+                
+                ang_now = director(470,180);      //디렉터 그리고 각도값 리턴
+                archer.drawArcher();                //아처 그리기
+                for(var i=0; i<num_gob; i++){   //고블린 그리기
+                    arr_gob[i].drawGoblin();
+                }
+                for(var i=0; i<num_skel; i++){   //skel 그리기
+                    arr_skel[i].drawSkel();
+                }
+                for(var i=0; i<num_dark; i++){   //delixir 그리기
+                    arr_dark[i].drawDelixir();
+                }
+                for(var i=0; i<num_arw; i++){   //화살 생성
+                    arr_arw[i].drawArrow();
+                }
+                
+                guage.drawGuage();      //게이지박스 그리기
+                guage.checkPow();       //파워게이지 올리기
+                
+                for(var i=0; i<num_gob; i++){   //고블린 맞았나 확인
+                    for(var j=0; j<num_arw; j++){
+                        arr_arw[j].hideArrow(arr_gob[i].isHit(arr_arw[j]));
+                    }
+                }
+                for(var i=0; i<num_skel; i++){   //skel 맞았나 확인
+                    for(var j=0; j<num_arw; j++){
+                        arr_arw[j].hideArrow(arr_skel[i].isHit(arr_arw[j]));
+                    }
+                }
+                for(var i=0; i<num_dark; i++){   //delixir 맞았나 확인
+                    for(var j=0; j<num_arw; j++){
+                        arr_arw[j].hideArrow(arr_dark[i].isHit(arr_arw[j]));
+                    }
+                }
+                
+                
+                
+                document.getElementById('score').innerHTML = score;    //스코어
+                document.getElementById('gob').innerHTML = tot_gob + tot_skel; //남은 고블린, skel 수
+                document.getElementById('delixir').innerHTML = 'dark-elixir: ' + score_d;   // 모은 다크엘릭서 개수
+//                setTimeout(loof, 1000/50);    //60fps로 작동
+                if(gameOver())window.requestAnimationFrame(loof);
+//                else foo()  //게임종료후 화면
+            }
+            
+//            -------------------객체함수들---------------m
+            
+            
+            
+            //게임종료 함수
+            function gameOver(){
+                var notGameOver = 0
+                for(var i=0; i<num_gob; i++){
+                    notGameOver += arr_gob[i].isArrive;
+                }   //살아있는 고블린 확인
+                for(var i=0; i<num_skel; i++){
+                    notGameOver += arr_skel[i].isArrive;
+                }   //살아있는 해골 확인
+                if(!notGameOver){
+                    ctx.fillStyle = 'rgba(100,0,100,.5)';
+                    ctx.fillRect(0,0,canvas.width,canvas.height);
+                    document.getElementById('screen').style.display = 'none';
+                    document.getElementById('over').style.display = 'block';
+                    document.getElementById('tot_score').innerHTML = score;
+                };
+                return notGameOver;
+            }
+            
+            //배경만들기 함수
+            var bg_img = new Image();
+            var bg_x = -200;
+            bg_img.src = 'imgsrc/bg_grass.jpg';
+            function makeBg(){
+                ctx.save();
+                if(bg_x==-100) bg_x=-200;
+                bg_x+=.5;   //배경 속도
+                ctx.drawImage(bg_img,bg_x,0,canvas.width+200,canvas.height);
+                ctx.restore();
+            }
+            
+            //화살 나가는 방향 정하는 디렉터 함수
+            var theta =0;  //화살 각도
+            var del =2; //각도 증분
+            var del_pre;
+            function director(x,y){
+                ctx.strokeStyle = 'red';
+                ctx.setLineDash([1,0]);
+                
+                ctx.beginPath();
+                ctx.moveTo(x-80,y); //left bottom
+                ctx.lineTo(x,y);
+                ctx.lineTo(x,y-80);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(x+10,y-70);
+                ctx.arc(x+10, y+10, 80, -3.14/2, 3.14, true);
+                ctx.stroke();
+                
+                ctx.strokeStyle ='black';
+                ctx.beginPath();
+                ctx.moveTo(x,y);
+                ctx.lineTo(x-80*Math.cos(3.14/180*theta), y-80*Math.sin(3.14/180*theta));
+                ctx.stroke();
+                
+                if(theta>90||theta<0) del = -del;
+                theta += del;
+                return theta;   //현재 각도 리턴
+            }
+            
+            
+            //파워게이지 함수
+            var pow = 0;
+            var del_pow = 0;
+            function PowGuage(x,y,w,h){
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                
+                this.drawGuage = function(){
+                    ctx.save();
+                    ctx.strokeStyle = 'purple';
+                    ctx.beginPath();
+                    ctx.strokeRect(this.x,this.y,this.w,this.h);    //바깥 박스 생성
+                    ctx.restore();
+                };
+                this.checkPow = function(){
+                    ctx.save();
+                    ctx.fillStyle = 'purple';
+                    ctx.beginPath;
+                    ctx.moveTo(this.x,this.y);
+                    ctx.rect(this.x,this.y,pow,this.h);    //time_now*80/15 보정값
+                    ctx.fill();
+                    ctx.restore();
+                    if(pow>80 || pow<0) del_pow = -del_pow;
+                    pow+=del_pow;
+                    pow_now=pow/80*str; //str은 활의 세기
+                    return pow_now;
+                };
+            }
+            
+            function Goblin(x,y,w,h,dir,speed){
+                this.width = w;
+                this.height = h;
+                this.pos_x=x;
+                this.pos_y=y;
+                this.center_x=x+w/2;
+                this.center_y=y+h/2;
+                this.radius = w*0.5;
+                this.dir = dir;           //움직일각도
+                this.speed = speed;         //속력
+                this.vel_x = speed*Math.cos(3.14/180*dir);  //속도
+                this.vel_y = speed*Math.sin(3.14/180*dir);  //속도
+                this.rot = 0;
+                this.temp = 0;
+                
+                this.range = false;      //레인지 보이기 끄기
+                this.isArrive = true;
+                
+                this.drawGoblin = function(){
+                    this.center_x = this.pos_x + this.width/2;
+                    this.center_y = this.pos_y + this.height/2;
+                    
+                    if(this.pos_x>canvas.width) this.reset();
+                    //고블린 흔들림 에니메이션
+                    if(this.temp%16<8) ctx.drawImage(gob_img, this.pos_x, this.pos_y, this.width, this.height);
+                    else ctx.drawImage(gob2_img, this.pos_x, this.pos_y, this.width, this.height);
+                    
+                    if(this.range) this.showAtkRange();
+                    this.walk();
+                    if(!this.isArrive) this.reset();
+                    this.temp++;
+                };
+                this.showAtkRange = function(){
+                    ctx.save();
+                    if(this.isArrive) ctx.fillStyle = 'rgba(0,200,0,0.5)';  //화살 맞으면 빨간색으로 변함
+                    else ctx.fillStyle = 'rgba(200,0,0,0.5)';
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.center_x, this.center_y, this.radius, 0, 6.28, false);
+                    ctx.fill();
+                    ctx.restore();   
+                };
+                this.isHit = function(arw){ //맞으면 true 아니면 false
+                    var distance = Math.pow(arw.tip_x - this.center_x, 2) + Math.pow(arw.tip_y - this.center_y, 2);
+                    distance = Math.sqrt(distance);
+                    if(distance<=this.radius){  //화살이 레인지 안에 들어옴
+                        if(this.isArrive) score += 3;    //화살이 고블린 통과하는동안 점수 누적되는거 해결
+                        this.isArrive = false;  //고블린 속성도 죽은걸로
+                        return true;
+                    }
+                    else return false;
+                };
+                this.reset = function(){   //화살 맞으면 스크린 밖 대기열로 보냄
+                    if(tot_gob==0){
+                        this.isArrive = false;
+                        this.pos_x = canvas.width+1000;
+                        this.pos_y = 0;
+                    }
+                    else{
+                        this.pos_x = myRndFloat(-400,-10);
+                        this.pos_y = myRndFloat(0, canvas.height-this.height);
+                        this.isArrive = true;
+                        tot_gob--;
+                    }
+                };
+                this.walk = function(){
+                    if((this.pos_y<0 || this.pos_y+this.height>canvas.height) && this.pos_x<400) this.vel_y = -this.vel_y;  //400픽셀 이하 튕기기
+                    
+                    this.pos_x += this.vel_x;
+                    this.pos_y += this.vel_y; 
+                };
+            }
+            
+            function Skel(x,y,w,h,dir,speed){
+                this.width = w;
+                this.height = h;
+                this.pos_x=x;
+                this.pos_y=y;
+                this.center_x=x+w/2;
+                this.center_y=y+h/2;
+                this.radius = w*0.5;
+                this.dir = dir;           //움직일각도
+                this.speed = speed;         //속력
+                this.vel_x = speed*Math.cos(3.14/180*dir);  //속도
+                this.vel_y = speed*Math.sin(3.14/180*dir);  //속도
+                this.rot = 0;
+                this.temp = 0;
+                
+                this.range = false;      //레인지 보이기 끄기
+                this.isArrive = true;
+                
+                this.drawSkel = function(){
+                    this.center_x = this.pos_x + this.width/2;
+                    this.center_y = this.pos_y + this.height/2;
+                    
+                    if(this.pos_x>canvas.width) this.reset();
+                    //고블린 흔들림 에니메이션
+                    if(this.temp%16<8) ctx.drawImage(skel_img, this.pos_x, this.pos_y, this.width, this.height);
+                    else ctx.drawImage(skel2_img, this.pos_x, this.pos_y, this.width, this.height);
+                    
+                    if(this.range) this.showAtkRange();
+                    this.walk();
+                    if(!this.isArrive) this.reset();
+                    this.temp++;
+                };
+                this.showAtkRange = function(){
+                    ctx.save();
+                    if(this.isArrive) ctx.fillStyle = 'rgba(0,200,0,0.5)';  //화살 맞으면 빨간색으로 변함
+                    else ctx.fillStyle = 'rgba(200,0,0,0.5)';
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.center_x, this.center_y, this.radius, 0, 6.28, false);
+                    ctx.fill();
+                    ctx.restore();   
+                };
+                this.isHit = function(arw){ //맞으면 true 아니면 false
+                    var distance = Math.pow(arw.tip_x - this.center_x, 2) + Math.pow(arw.tip_y - this.center_y, 2);
+                    distance = Math.sqrt(distance);
+                    if(distance<=this.radius){  //화살이 레인지 안에 들어옴
+                        if(this.isArrive) score += 2;    //해골 2점
+                        this.isArrive = false;  //고블린 속성도 죽은걸로
+                        return true;
+                    }
+                    else return false;
+                };
+                this.reset = function(){   //화살 맞으면 스크린 밖 대기열로 보냄
+                    if(tot_skel==0){
+                        this.isArrive = false;
+                        this.pos_x = canvas.width+1000;
+                        this.pos_y = 0;
+                    }
+                    else{
+                        this.pos_x = myRndFloat(-400,-10);
+                        this.pos_y = myRndFloat(0, canvas.height-this.height);
+                        this.isArrive = true;
+                        tot_skel--;
+                    }
+                };
+                this.walk = function(){
+                    if((this.pos_y<0 || this.pos_y+this.height>canvas.height) && this.pos_x<400) this.vel_y = -this.vel_y;  //400픽셀 이하 튕기기
+                    
+                    this.pos_x += this.vel_x;
+                    this.pos_y += this.vel_y; 
+                };
+            }
+            
+            function Delixir(x,y,w,h,dir,speed){    //다크엘릭서 객체
+                this.width = w;
+                this.height = h;
+                this.pos_x=x;
+                this.pos_y=y;
+                this.center_x=x+w/2;
+                this.center_y=y+h/2;
+                this.radius = w*0.5;
+                this.dir = dir;           //움직일각도
+                this.speed = speed;         //속력
+                this.vel_x = speed*Math.cos(3.14/180*dir);  //속도
+                this.vel_y = speed*Math.sin(3.14/180*dir);  //속도
+                this.rot = 0;
+                
+                this.range = false;      //레인지 보이기 끄기
+                this.isArrive = true;
+                
+                this.drawDelixir = function(){
+                    this.center_x = this.pos_x + this.width/2;
+                    this.center_y = this.pos_y + this.height/2;
+                    
+                    if(this.pos_x>canvas.width) this.reset();
+                    ctx.drawImage(delixir_img, this.pos_x, this.pos_y, this.width, this.height);
+                    if(this.range) this.showAtkRange();
+                    this.walk();
+                    if(!this.isArrive) this.reset();
+                };
+                this.showAtkRange = function(){
+                    ctx.save();
+                    if(this.isArrive) ctx.fillStyle = 'rgba(0,200,0,0.5)';  //화살 맞으면 빨간색으로 변함
+                    else ctx.fillStyle = 'rgba(200,0,0,0.5)';
+                    
+                    ctx.beginPath();
+                    ctx.arc(this.center_x, this.center_y, this.radius, 0, 6.28, false);
+                    ctx.fill();
+                    ctx.restore();   
+                };
+                this.isHit = function(arw){ //맞으면 true 아니면 false
+                    var distance = Math.pow(arw.tip_x - this.center_x, 2) + Math.pow(arw.tip_y - this.center_y, 2);
+                    distance = Math.sqrt(distance);
+                    if(distance<=this.radius){  //화살이 레인지 안에 들어옴
+                        if(this.isArrive) score_d++;    //화살이 고블린 통과하는동안 점수 누적되는거 해결
+                        this.isArrive = false;  //고블린 속성도 죽은걸로
+                        return true;
+                    }
+                    else return false;
+                };
+                this.reset = function(){   //화살 맞으면 스크린 밖 대기열로 보냄
+                    if(tot_dark==0){
+                        this.isArrive = false;
+                        this.pos_x = canvas.width+1000;
+                        this.pos_y = 0;
+                    }
+                    else{
+                        this.pos_x = myRndFloat(-400,-10);
+                        this.pos_y = myRndFloat(0, canvas.height-this.height);
+                        this.isArrive = true;
+                        tot_dark--;
+                    }
+                };
+                this.walk = function(){
+                    if((this.pos_y<0 || this.pos_y+this.height>canvas.height) && this.pos_x<400) this.vel_y = -this.vel_y;  //400픽셀 이하 튕기기
+                    
+                    this.pos_x += this.vel_x;
+                    this.pos_y += this.vel_y; 
+                };
+            }
+            
+            function Archer(dx, dy){
+                this.pos_x = dx;
+                this.pos_y = dy;
+                this.width = 50;
+                this.height = 70;
+                this.isQueen = false;   //퀸모드 판정
+                this.qTime = 10000;      //ms
+                this.barWidth = 80;     //바 고정길이
+                this.guageWidth = 80;   //게이지 변동길이
+                this.t_now;
+                this.t_pre;
+                this.radEff = 30;
+                this.alpEff = 1;
+                
+                this.drawArcher = function(){   //아처 그리기
+                    this.changeToQueen();
+                    if(this.isQueen){
+                        this.cngEffect();
+                        ctx.drawImage(arcq_img, this.pos_x-30, this.pos_y-50, 70, 100);   //아처퀸 생성
+                        this.queenGuage()   //퀸게이지바 생성
+                    }
+                    else ctx.drawImage(arc_img, this.pos_x-30, this.pos_y-20, this.width, this.height);   //아처 생성
+                };
+                this.changeToQueen = function(){
+                    if(this.isQueen){   //이미 아처퀸 모드면 점수로 대체
+                        if(score_d>=1){
+                            score_d--;
+                            score += 5;
+                        }
+                        return;
+                    }
+                    if(score_d>=1){
+                        this.isQueen = true;
+                        //이펙트 바꾸자
+                        isExe = true;
+                        this.radEff+=50;
+                        this.alpEff-=1;
+                        delay(this.qTime, this.changeToArcher);
+                        score_d = 0;
+                    }
+                };
+                this.changeToArcher = function(){
+                    //아처로 변신
+                    archer.isQueen = false;     //this.isQueen으로 쓰면 delay에서 this정보를 잊어버림
+                };
+                this.shotArrow = function(){
+                    if(this.isQueen){
+                        //****아처퀸 모드****
+                        for(var i=0; i<num_arw; i++){
+                            arr_arw[i].setInitial(ang_now-(i-1)*10, pow_now-Math.pow((i-1),2)*1);
+                        }
+                    }
+                    else{
+                        //****일반모드****
+                        arr_arw[arw_seq%num_arw].setInitial(ang_now, pow_now);
+                        arw_seq++;
+                    }
+                };
+                this.queenGuage = function(){
+                    this.t_pre = this.t_now;
+                    var t = new Date();
+                    this.t_now = t.getTime();
+                    var t_int = this.t_now-this.t_pre;
+                    if(isNaN(t_int)) t_int=0;
+                    
+                    ctx.save();
+                    ctx.strokeStyle = 'pink';
+                    ctx.beginPath();
+                    ctx.strokeRect(this.pos_x-70,this.pos_y+this.barWidth,this.barWidth,10);    //바깥 박스 생성
+                    ctx.restore();
+                
+                    ctx.save();
+                    ctx.fillStyle = 'pink';
+                    ctx.beginPath;
+                    ctx.moveTo(this.pos_x-70,this.pos_y+this.barWidth);
+                    ctx.rect(this.pos_x-70,this.pos_y+this.barWidth,this.guageWidth,10);    
+                    ctx.fill();
+                    ctx.restore();
+                    this.guageWidth -= t_int/this.qTime*this.barWidth;
+                    if(this.guageWidth<0) this.guageWidth=80;    //퀸으로 여러번 변신하려면 게이지 초기화
+                };
+                //미완성 이펙트
+                this.cngEffect = function(){
+                    if(this.radEff<150&&this.alpEff>=0){
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(this.pos_x+5,this.pos_y,this.radEff,0,3.14,true);
+                        ctx.fillStyle = 'rgba(242,221,222,'+this.alpEff+')';
+                        ctx.fill();
+                        ctx.restore();
+                        this.radEff+=20;
+                        this.alpEff-=0.1;
+                    }
+                };
+            } 
+
+            function Arrow(x, y, time, ang){ //mouseover, mouseout으로 누른시간 측정
+                //time이 힘에 비례
+                this.ang = ang;
+                this.power = time;
+                this.vel_x = this.power*Math.cos(3.14/180*this.ang);   //x방향속도
+                this.vel_y = this.power*Math.sin(3.14/180*this.ang);   //y방향속도
+                this.pos_x = x;
+                this.pos_y = y;
+                this.alpha; //화살 각도
+                this.width = 30;
+                this.height = 4;
+                this.tip_x; //화살촉 x
+                this.tip_y; //화살촉 y
+                this.hideBox = false;   //빨간박스 숨기기
+                
+                this.drawArrow = function(){
+                    //화살 각도 휘기
+                    this.alpha = Math.atan(this.vel_y/this.vel_x);
+                    ctx.save();     //이전 캔버스 설정 저장
+                    ctx.translate(this.pos_x - this.width*Math.cos(this.alpha)/2, this.pos_y - this.width*Math.sin(this.alpha)/2);    //화살길이 보정 해줘야 회전이 자연스러움
+                    ctx.rotate(this.alpha);
+                    ctx.drawImage(arw_img, 0, 0, this.width, this.height);    //화살 그리기
+                    ctx.restore();  //이전 캔버스 설정 불러오기
+                    this.drawBox();
+                    
+                    //화살 속도, 가속도, 위치 계산
+                    this.vel_x -= acc_x;
+                    this.pos_x -= this.vel_x;
+                    this.vel_y -= acc_y;
+                    this.pos_y -= this.vel_y;
+                    this.tip_x = this.pos_x - this.width*Math.cos(this.alpha)/2;
+                    this.tip_y = this.pos_y - this.width*Math.sin(this.alpha)/2;
+                };
+                
+                this.hideArrow = function(isHidden){                    
+                    if(isHidden){
+                        ctx.drawImage(attack_img, this.tip_x, this.tip_y, 50, 50);
+                        this.pos_x = canvas.width + 1000;
+                        this.pos_y = canvas.height + 1000;
+                    }
+                };
+                
+                this.setInitial = function(angVal, powVal){
+                    //angVal은 디렉터 리턴값 ang_now, powVal은 게이지 리턴값 pow_now넣어야
+                    this.ang = angVal;
+                    this.power = powVal;
+                    this.vel_x = this.power*Math.cos(3.14/180*this.ang);
+                    this.vel_y = this.power*Math.sin(3.14/180*this.ang);
+                    this.pos_x = d_x + 10;  //디렉터 기준으로
+                    this.pos_y = d_y;
+                };
+                
+                this.drawBox = function(){
+                    if(!this.hideBox){       
+                        ctx.fillStyle = 'red';
+                        ctx.beginPath();
+                        ctx.fillRect(this.tip_x, this.tip_y, 4, 4);
+                        ctx.restore();
+                    } 
+                };
+            }
+            
+
+
+            
+//            -------------------------------------------------------
+            function showGrid(ctx, int_x, int_y){   //canvas contxet, x축 간격, y축 간격
+                ctx.lineWidth = 1;                          //그리드라인 두께
+                ctx.font ='10px arial';                     //숫자폰트 설정
+                ctx.strokeStyle = 'rgba(100,100,100,.7)';   //그리드라인 색 설정
+                ctx.fillStyle = 'rgba(100,100,100,.9)';     //좌표 숫자 색 설정
+                
+                //본문에 var canvas = document.getElementById('캔버스 태그 id'); 넣어주세요
+                var cwidth = canvas.width;               
+                var cheight = canvas.height;
+                var col = Math.floor(cwidth/int_x);
+                var row = Math.floor(cheight/int_x);
+                           
+                for(var i=0; i<col; i++){   //show x-axis grid
+                    if((i+1)%5==0){
+                        ctx.setLineDash([6,1]);
+                        ctx.fillText((i+1)*int_x, (i+1)*int_x-10, 8);
+                    }
+                    else ctx.setLineDash([2,2]);                 
+                    ctx.beginPath();
+                    ctx.moveTo((i+1)*int_x,0);
+                    ctx.lineTo((i+1)*int_x,cheight);
+                    ctx.stroke();
+                }
+                
+                for(var i=0; i<row; i++){   //show y-axis grid
+                    if((i+1)%5==0){
+                        ctx.setLineDash([6,1]);
+                        ctx.fillText((i+1)*int_y, 0, (i+1)*int_y);
+                    }
+                    else ctx.setLineDash([2,2]);
+                    ctx.beginPath();
+                    ctx.moveTo(0,(i+1)*int_y);
+                    ctx.lineTo(cwidth,(i+1)*int_y);
+                    ctx.stroke();
+                }
+                
+            }
+            
+            //랜덤 소수생성
+            function myRndFloat(a, b){
+                return Math.random()*(b-a)+a;
+            }
+            
+            //시간지연            
+            var isExe = true;   //프레임마다 반복안하게 만들어주는 변수
+            function delay(tVal, foo){
+                if(!isExe) return;
+                isExe = false;
+                setTimeout(foo, tVal);  //계속반복할거면 foo함수 맨 끝에 isExe = true 삽입
+            }
+            
+            function mySetCookieFunction(cookieName,cookieValue,expiryDate) {
+                var d = new Date();
+                d.setTime(d.getTime() + (expiryDate*24*60*60*1000));
+                var expires = "expires=" + d.toGMTString();
+                document.cookie = cookieName+"="+cookieValue+"; "+expires;
+            }
+            
+            function myGetCookieFunction(cookieName) {
+                var name = cookieName + "=";
+                var allCookies = document.cookie.split(';');
+                for(var i=0; i < allCookies.length; i++) {
+                    var aCookie = allCookies[i];
+                    while (aCookie.charAt(0)==' ') aCookie = aCookie.substring(1);
+                    if (aCookie.indexOf(name) == 0) {
+                        return aCookie.substring(name.length, aCookie.length);
+                    }
+                }
+                return "";
+            }
+            
+            
+            
+            
+        </script>
+    </body>
+</html>
